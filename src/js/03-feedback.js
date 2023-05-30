@@ -7,7 +7,7 @@ const refs = {
 };
 
 const STORAGE_KEY = 'feedback-form-state';
-const formData = {};
+let formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
 refs.form.addEventListener('submit', onFormSubmit);
 refs.form.addEventListener('input', throttle(onFormInput, 500));
@@ -27,6 +27,7 @@ function onFormSubmit(event) {
 
     event.currentTarget.reset();
     localStorage.removeItem(STORAGE_KEY);
+    formData = {};
   }
 }
 
@@ -38,7 +39,7 @@ function onFormInput(event) {
 function populateFormInput() {
   const formData = JSON.parse(localStorage.getItem(STORAGE_KEY));
   if (formData) {
-    refs.email.value = formData.email;
-    refs.message.value = formData.message;
+    refs.email.value = formData.email || '';
+    refs.message.value = formData.message || '';
   }
 }
